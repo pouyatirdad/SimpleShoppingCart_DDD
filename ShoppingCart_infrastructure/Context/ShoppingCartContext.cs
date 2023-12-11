@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShoppingCart_Domain.Entities;
 using ShoppingCart_Domain.ValueObjects;
+using ShoppingCart_infrastructure.Context.Configs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,8 +18,8 @@ namespace ShoppingCart_infrastructure.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ShoppingCart>()
-            .HasMany(s => s.Items); 
+            new ShoppingCartConfig().Configure(modelBuilder.Entity<ShoppingCart>());
+            new ProductConfig().Configure(modelBuilder.Entity<Product>());
         }
     }
 }

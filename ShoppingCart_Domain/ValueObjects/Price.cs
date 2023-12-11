@@ -1,7 +1,12 @@
-﻿namespace ShoppingCart_Domain.ValueObjects
+﻿
+using System.Diagnostics.Metrics;
+using System.IO;
+using System.Reflection.Emit;
+
+namespace ShoppingCart_Domain.ValueObjects
 {
     //ValueObject of ShoppingCart
-    public class Price
+    public class Price:ValueObject
     {
         public decimal Amount { get; }
         public string Currency { get; }
@@ -18,6 +23,12 @@
             }
             this.Amount = Amount;
             this.Currency = Currency;
+        }
+
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return Amount;
+            yield return Currency;
         }
     }
 }

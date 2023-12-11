@@ -14,6 +14,7 @@ namespace ShoppingCart_infrastructure.Repositories
         public Task<bool> Delete(Guid Id);
         public Task<bool> Delete(ShoppingCart shoppingCart);
         public Task<ShoppingCart> Get(Guid Id);
+        public Task<List<ShoppingCart>> GetAll();
         public Task SaveChange();
     }
 }

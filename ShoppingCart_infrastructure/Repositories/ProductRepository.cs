@@ -9,20 +9,20 @@ using System.Threading.Tasks;
 
 namespace ShoppingCart_infrastructure.Repositories
 {
-    public class ShoppingCartRepository : IShoppingCartRepository
+    public class ProductRepository : IProductRepository
     {
         private readonly ShoppingCartContext _context;
 
-        public ShoppingCartRepository(ShoppingCartContext context)
+        public ProductRepository(ShoppingCartContext context)
         {
             _context = context;
         }
 
-        public async Task<bool> Add(ShoppingCart shoppingCart)
+        public async Task<bool> Add(Product product)
         {
             try
             {
-                await _context.ShoppingCarts.AddAsync(shoppingCart);
+                await _context.Products.AddAsync(product);
                 return true;
             }
             catch (Exception)
@@ -33,7 +33,7 @@ namespace ShoppingCart_infrastructure.Repositories
 
         public async Task<bool> Delete(Guid Id)
         {
-            ShoppingCart cart= await Get(Id);
+            Product cart = await Get(Id);
             if (cart != null)
             {
                 return await Delete(cart);
@@ -41,11 +41,11 @@ namespace ShoppingCart_infrastructure.Repositories
             return false;
         }
 
-        public async Task<bool> Delete(ShoppingCart shoppingCart)
+        public async Task<bool> Delete(Product product)
         {
             try
             {
-                _context.ShoppingCarts.Remove(shoppingCart);
+                _context.Products.Remove(product);
                 return true;
             }
             catch (Exception)
@@ -54,15 +54,15 @@ namespace ShoppingCart_infrastructure.Repositories
             }
         }
 
-        public async Task<ShoppingCart> Get(Guid Id)
+        public async Task<Product> Get(Guid Id)
         {
-            return await _context.ShoppingCarts.FindAsync(Id);
+            return await _context.Products.FindAsync(Id);
         }
-        public async Task<bool> Update(ShoppingCart shoppingCart)
+        public async Task<bool> Update(Product product)
         {
             try
             {
-                _context.ShoppingCarts.Update(shoppingCart);
+                _context.Products.Update(product);
                 return true;
             }
             catch (Exception)
@@ -76,9 +76,9 @@ namespace ShoppingCart_infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<ShoppingCart>> GetAll()
+        public async Task<List<Product>> GetAll()
         {
-            return await _context.ShoppingCarts.ToListAsync();
+            return await _context.Products.ToListAsync();
         }
     }
 }
