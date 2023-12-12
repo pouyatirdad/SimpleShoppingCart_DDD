@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using ShoppingCart_Application.Responses;
 using ShoppingCart_Domain.Entities;
 using ShoppingCart_Domain.ValueObjects;
 using ShoppingCart_infrastructure.Repositories;
@@ -10,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace ShoppingCart_Application.Services.Commands.ShoppingCarts
 {
-    public class CreateShoppingCartCommand:IRequest<Guid>
+    public class CreateShoppingCartCommand:IRequest<Response<Guid>>
     {
     }
-    public class CreateShoppingCartCommandHandler : IRequestHandler<CreateShoppingCartCommand, Guid>
+    public class CreateShoppingCartCommandHandler : IRequestHandler<CreateShoppingCartCommand, Response<Guid>>
     {
         private readonly IShoppingCartRepository _shoppingCartRepository;
 
@@ -22,8 +23,10 @@ namespace ShoppingCart_Application.Services.Commands.ShoppingCarts
             _shoppingCartRepository = shoppingCartRepository;
         }
 
-        public async Task<Guid> Handle(CreateShoppingCartCommand request, CancellationToken cancellationToken)
+        public async Task<Response<Guid>> Handle(CreateShoppingCartCommand request, CancellationToken cancellationToken)
         {
+            var response=new Response<Guid>();
+
             Guid Id =Guid.NewGuid();
             var newShoppingCart = new ShoppingCart(Id);
 
@@ -31,10 +34,14 @@ namespace ShoppingCart_Application.Services.Commands.ShoppingCarts
 
             if (result)
             {
-                return Id;
+                response.Data = Id;
+                return response;
             }
 
-            return Guid.Empty;
+            response.IsSuccess = false;
+            response.Message = "Failed";
+
+            return response;
         }
     }
 }

@@ -10,10 +10,14 @@ namespace ShoppingCart_Domain.Entities
     //AggregateRoot
     public class ShoppingCart
     {
-        public Guid Id { get; }
+        public Guid Id { get; private set; }
         public List<Product> Items { get; private set; }
         public Price Total { get; private set; }
 
+        public ShoppingCart()
+        {
+                
+        }
         public ShoppingCart(Guid id)
         {
             Id = id;

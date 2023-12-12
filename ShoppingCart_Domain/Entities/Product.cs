@@ -4,9 +4,13 @@ namespace ShoppingCart_Domain.Entities
 {
     public class Product
     {
-        public Guid Id { get; }
-        public string Name { get; }
-        public Price Price { get; }
+        public Guid Id { get; private set; }
+        public string Name { get; private set; }
+        public Price Price { get; private set; }
+
+        public Product()
+        {
+        }
 
         public Product(Guid id, string name, Price price)
         {
