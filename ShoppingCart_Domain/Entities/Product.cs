@@ -1,8 +1,9 @@
-﻿using ShoppingCart_Domain.ValueObjects;
+﻿using ShoppingCart_Domain.Common;
+using ShoppingCart_Domain.ValueObjects;
 
 namespace ShoppingCart_Domain.Entities
 {
-    public class Product
+    public class Product : BaseEntity
     {
         public Guid Id { get; private set; }
         public string Name { get; private set; }

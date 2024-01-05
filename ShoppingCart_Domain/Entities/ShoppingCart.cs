@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ShoppingCart_Domain.Common;
 using ShoppingCart_Domain.ValueObjects;
 
 namespace ShoppingCart_Domain.Entities
 {
     //AggregateRoot
-    public class ShoppingCart
+    public class ShoppingCart : BaseEntity
     {
         public Guid Id { get; private set; }
         public List<Product> Items { get; private set; }

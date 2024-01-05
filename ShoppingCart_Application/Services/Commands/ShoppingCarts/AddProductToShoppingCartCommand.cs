@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using ShoppingCart_Application.Responses;
 using ShoppingCart_Domain.Entities;
+using ShoppingCart_Domain.Events;
 using ShoppingCart_infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,9 @@ namespace ShoppingCart_Application.Services.Commands.ShoppingCarts
                 if (updateCart)
                 {
                     response.Data = shoppingCart.Result;
+
+                    shoppingCart.Result.AddDomainEvent(new AddProductToShoppingCartEvent(shoppingCart.Result));
+
                     return response;
                 }
             }
