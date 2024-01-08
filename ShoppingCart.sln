@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCart_Application", "ShoppingCart_Application\ShoppingCart_Application.csproj", "{F4F7C264-225A-4D2B-841E-D344E93475B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingCart_Application", "ShoppingCart_Application\ShoppingCart_Application.csproj", "{F4F7C264-225A-4D2B-841E-D344E93475B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCart_infrastructure", "ShoppingCart_infrastructure\ShoppingCart_infrastructure.csproj", "{5C343809-6FF8-456C-A5EE-D011C984D345}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingCart_infrastructure", "ShoppingCart_infrastructure\ShoppingCart_infrastructure.csproj", "{5C343809-6FF8-456C-A5EE-D011C984D345}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCart_Domain", "ShoppingCart_Domain\ShoppingCart_Domain.csproj", "{D3979907-8675-40E4-89C5-49A587F99FF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingCart_Domain", "ShoppingCart_Domain\ShoppingCart_Domain.csproj", "{D3979907-8675-40E4-89C5-49A587F99FF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCart_API", "ShoppingCart_API\ShoppingCart_API.csproj", "{D2934606-1724-4623-B266-0B2A6CB75D85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{D3979907-8675-40E4-89C5-49A587F99FF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3979907-8675-40E4-89C5-49A587F99FF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3979907-8675-40E4-89C5-49A587F99FF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2934606-1724-4623-B266-0B2A6CB75D85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2934606-1724-4623-B266-0B2A6CB75D85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2934606-1724-4623-B266-0B2A6CB75D85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2934606-1724-4623-B266-0B2A6CB75D85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

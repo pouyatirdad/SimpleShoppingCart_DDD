@@ -11,8 +11,12 @@ using System.Threading.Tasks;
 
 namespace ShoppingCart_infrastructure.Context
 {
-    public class ShoppingCartContext: DbContext
+    public class ShoppingCartContext : DbContext
     {
+        public ShoppingCartContext(DbContextOptions<ShoppingCartContext> options)
+        : base(options)
+        { }
+
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<Product> Products { get; set; }
 
@@ -21,5 +25,5 @@ namespace ShoppingCart_infrastructure.Context
             new ShoppingCartConfig().Configure(modelBuilder.Entity<ShoppingCart>());
             new ProductConfig().Configure(modelBuilder.Entity<Product>());
         }
-    }
+    } 
 }
