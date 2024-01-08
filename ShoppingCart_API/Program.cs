@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ShoppingCart_Application.Services.Commands.Products;
 using ShoppingCart_infrastructure.Context;
 using ShoppingCart_infrastructure.Repositories;
 using System;
@@ -17,7 +18,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(AddProductCommand).Assembly));
+//builder.Services.AddMediatR(typeof(AddProductCommand).Assembly);
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 

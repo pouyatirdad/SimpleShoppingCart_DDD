@@ -8,8 +8,8 @@ namespace ShoppingCart_Application.Services.Commands.Products
 {
     public class AddProductCommand : IRequest<Response<Product>>
     {
-        public string Name { get; private set; }
-        public Price Price { get; private set; }
+        public string Name { get; set; }
+        public Price Price { get; set; }
     }
     public class AddProductCommandHandler : IRequestHandler<AddProductCommand, Response<Product>>
     {
@@ -30,6 +30,7 @@ namespace ShoppingCart_Application.Services.Commands.Products
 
             if (result)
             {
+                await _productRepository.SaveChange();
                 response.Data = newProduct;
                 return response;
             }
