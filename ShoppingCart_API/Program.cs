@@ -1,15 +1,7 @@
-using Microsoft.EntityFrameworkCore;
-using ShoppingCart_Application.Services.Commands.Products;
-using ShoppingCart_infrastructure.Context;
-using ShoppingCart_infrastructure.Repositories;
-using System;
+using ShoppingCart_Application;
+using ShoppingCart_infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
-
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'AppDbContextConnection' not found.");
-
-builder.Services.AddDbContext<ShoppingCartContext>(options =>
-    options.UseSqlServer(connectionString));
 
 // Add services to the container.
 
@@ -18,10 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(AddProductCommand).Assembly));
-//builder.Services.AddMediatR(typeof(AddProductCommand).Assembly);
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
+builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
 
