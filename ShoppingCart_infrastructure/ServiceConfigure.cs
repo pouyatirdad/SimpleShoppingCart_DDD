@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ShoppingCart_infrastructure
 {
-    public static class DI
+    public static class ServiceConfigure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
