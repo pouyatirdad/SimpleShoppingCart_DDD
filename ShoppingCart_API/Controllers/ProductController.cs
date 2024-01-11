@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingCart_Application.Responses;
 using ShoppingCart_Application.Services.Commands.Products;
@@ -16,8 +15,8 @@ namespace ShoppingCart_API.Controllers
         {
             _mediator = mediator;
         }
-        [HttpPost]
-        public async Task<Response<Product>> AddProduct([FromBody] AddProductCommand product)
+        [HttpPost("CreateProduct")]
+        public async Task<Response<Product>> CreateProduct([FromBody] AddProductCommand product)
         {
             var data = await _mediator.Send(product);
 

@@ -34,6 +34,7 @@ namespace ShoppingCart_Application.Services.Commands.ShoppingCarts
 
             if (result)
             {
+                await _shoppingCartRepository.SaveChange();
                 response.Data = Id;
                 return response;
             }
