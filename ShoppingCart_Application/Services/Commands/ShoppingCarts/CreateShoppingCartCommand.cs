@@ -11,9 +11,12 @@ using System.Threading.Tasks;
 
 namespace ShoppingCart_Application.Services.Commands.ShoppingCarts
 {
-    public class CreateShoppingCartCommand:IRequest<Response<Guid>>
-    {
-    }
+    #region command
+    public record CreateShoppingCartCommand : IRequest<Response<Guid>>;
+
+    #endregion
+    #region handler
+
     public class CreateShoppingCartCommandHandler : IRequestHandler<CreateShoppingCartCommand, Response<Guid>>
     {
         private readonly IShoppingCartRepository _shoppingCartRepository;
@@ -25,12 +28,12 @@ namespace ShoppingCart_Application.Services.Commands.ShoppingCarts
 
         public async Task<Response<Guid>> Handle(CreateShoppingCartCommand request, CancellationToken cancellationToken)
         {
-            var response=new Response<Guid>();
+            var response = new Response<Guid>();
 
-            Guid Id =Guid.NewGuid();
+            Guid Id = Guid.NewGuid();
             var newShoppingCart = new ShoppingCart(Id);
 
-            bool result=await _shoppingCartRepository.Add(newShoppingCart);
+            bool result = await _shoppingCartRepository.Add(newShoppingCart);
 
             if (result)
             {
@@ -45,4 +48,5 @@ namespace ShoppingCart_Application.Services.Commands.ShoppingCarts
             return response;
         }
     }
+    #endregion
 }

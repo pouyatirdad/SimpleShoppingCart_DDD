@@ -16,7 +16,7 @@ namespace ShoppingCart_API.Controllers
             _mediator = mediator;
         }
         [HttpPost("CreateProduct")]
-        public async Task<Response<Product>> CreateProduct([FromBody] AddProductCommand product)
+        public async Task<Response<Product>> CreateProduct([FromBody] CreateProductCommand product)
         {
             var data = await _mediator.Send(product);
 

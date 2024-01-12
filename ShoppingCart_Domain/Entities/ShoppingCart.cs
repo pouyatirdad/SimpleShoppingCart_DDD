@@ -17,7 +17,13 @@ namespace ShoppingCart_Domain.Entities
 
         public ShoppingCart()
         {
-                
+
+        }
+        public ShoppingCart(Guid id,List<Product> products,Price total)
+        {
+            Id = id;
+            Items = products;
+            Total = total;
         }
         public ShoppingCart(Guid id)
         {

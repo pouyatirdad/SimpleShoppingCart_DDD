@@ -10,10 +10,11 @@ using System.Threading.Tasks;
 
 namespace ShoppingCart_Application.Services.Queries.ShoppingCarts
 {
-    public class GetShoppingCartsQuery : IRequest<Response<List<ShoppingCart>>>
-    {
-    }
+    #region query
+    public record GetShoppingCartsQuery : IRequest<Response<List<ShoppingCart>>>;
 
+    #endregion
+    #region handler
     public class GetShoppingCartsQueryHandler : IRequestHandler<GetShoppingCartsQuery, Response<List<ShoppingCart>>>
     {
         private readonly IShoppingCartRepository _shoppingCartRepository;
@@ -24,7 +25,7 @@ namespace ShoppingCart_Application.Services.Queries.ShoppingCarts
         }
         public async Task<Response<List<ShoppingCart>>> Handle(GetShoppingCartsQuery request, CancellationToken cancellationToken)
         {
-            var response=new Response<List<ShoppingCart>>();
+            var response = new Response<List<ShoppingCart>>();
 
             var data = _shoppingCartRepository.GetAll();
 
@@ -39,4 +40,5 @@ namespace ShoppingCart_Application.Services.Queries.ShoppingCarts
             return response;
         }
     }
+    #endregion
 }

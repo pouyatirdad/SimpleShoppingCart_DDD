@@ -11,11 +11,14 @@ using System.Threading.Tasks;
 
 namespace ShoppingCart_Application.Services.Commands.ShoppingCarts
 {
-    public class AddProductToShoppingCartCommand:IRequest<Response<ShoppingCart>>
+    #region command
+    public record AddProductToShoppingCartCommand : IRequest<Response<ShoppingCart>>
     {
         public Guid ProductId { get; set; }
         public Guid ShoppingCartId { get; set; }
     }
+    #endregion
+    #region handler
     public class AddProductToShoppingCartCommandHandler : IRequestHandler<AddProductToShoppingCartCommand, Response<ShoppingCart>>
     {
         private readonly IShoppingCartRepository _shoppingCartRepository;
@@ -30,20 +33,20 @@ namespace ShoppingCart_Application.Services.Commands.ShoppingCarts
         public async Task<Response<ShoppingCart>> Handle(AddProductToShoppingCartCommand request, CancellationToken cancellationToken)
         {
             var response = new Response<ShoppingCart>();
-            var product = _productRepository.Get(request.ProductId);
-            var shoppingCart = _shoppingCartRepository.Get(request.ShoppingCartId);
+            var product = await _productRepository.Get(request.ProductId);
+            var shoppingCart = new ShoppingCart(request.ShoppingCartId);
 
-            if (product.Result != null && shoppingCart.Result != null)
+            if (product != null && shoppingCart != null)
             {
-                shoppingCart.Result.AddItem(product.Result);
+                shoppingCart.AddItem(product);
 
-                bool updateCart =await _shoppingCartRepository.Update(shoppingCart.Result);
+                bool updateCart = await _shoppingCartRepository.Update(shoppingCart);
                 if (updateCart)
                 {
                     await _shoppingCartRepository.SaveChange();
-                    response.Data = shoppingCart.Result;
+                    response.Data = shoppingCart;
 
-                    shoppingCart.Result.AddDomainEvent(new AddProductToShoppingCartEvent(shoppingCart.Result));
+                    shoppingCart.AddDomainEvent(new AddProductToShoppingCartEvent(shoppingCart));
 
                     return response;
                 }
@@ -55,4 +58,5 @@ namespace ShoppingCart_Application.Services.Commands.ShoppingCarts
             return response;
         }
     }
+    #endregion
 }

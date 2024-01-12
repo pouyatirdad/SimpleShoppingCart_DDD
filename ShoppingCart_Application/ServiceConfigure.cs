@@ -1,13 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FluentValidation;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ShoppingCart_Application.Services.Commands.Products;
 using ShoppingCart_infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShoppingCart_Application
 {
@@ -17,7 +12,9 @@ namespace ShoppingCart_Application
         {
             services.AddInfrastructureServices(configuration);
 
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(AddProductCommand).Assembly));
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             return services;
         }
