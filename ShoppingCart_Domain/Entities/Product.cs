@@ -9,7 +9,7 @@ namespace ShoppingCart_Domain.Entities
         public string Name { get; private set; }
         public Price Price { get; private set; }
 
-        public Product()
+        private Product()
         {
         }
 

@@ -15,7 +15,7 @@ namespace ShoppingCart_Domain.Entities
         public List<Product> Items { get; private set; }
         public Price Total { get; private set; }
 
-        public ShoppingCart()
+        private ShoppingCart()
         {
 
         }
