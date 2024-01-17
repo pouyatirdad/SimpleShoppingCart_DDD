@@ -9,7 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingCart_infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingCart_Domain", "ShoppingCart_Domain\ShoppingCart_Domain.csproj", "{D3979907-8675-40E4-89C5-49A587F99FF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCart_API", "ShoppingCart_API\ShoppingCart_API.csproj", "{D2934606-1724-4623-B266-0B2A6CB75D85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingCart_API", "ShoppingCart_API\ShoppingCart_API.csproj", "{D2934606-1724-4623-B266-0B2A6CB75D85}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{62637A61-3BB0-46EA-914D-3B4B8CAC5E88}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
