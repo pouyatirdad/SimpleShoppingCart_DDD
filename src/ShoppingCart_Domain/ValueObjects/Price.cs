@@ -1,13 +1,7 @@
-﻿
-using System.ComponentModel;
-using System.Diagnostics.Metrics;
-using System.IO;
-using System.Reflection.Emit;
-
-namespace ShoppingCart_Domain.ValueObjects
+﻿namespace ShoppingCart_Domain.ValueObjects
 {
     //ValueObject of ShoppingCart
-    public class Price:ValueObject
+    public class Price : ValueObject
     {
         public decimal Amount { get; private set; }
         public string Currency { get; private set; }

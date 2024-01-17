@@ -3,11 +3,6 @@ using ShoppingCart_Application.Responses;
 using ShoppingCart_Domain.Entities;
 using ShoppingCart_Domain.Events;
 using ShoppingCart_infrastructure.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShoppingCart_Application.Services.Commands.ShoppingCarts
 {

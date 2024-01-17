@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShoppingCart_Domain.Entities;
 using ShoppingCart_infrastructure.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShoppingCart_infrastructure.Repositories
 {
@@ -33,7 +28,7 @@ namespace ShoppingCart_infrastructure.Repositories
 
         public async Task<bool> Delete(Guid Id)
         {
-            ShoppingCart cart= await Get(Id);
+            ShoppingCart cart = await Get(Id);
             if (cart != null)
             {
                 return await Delete(cart);

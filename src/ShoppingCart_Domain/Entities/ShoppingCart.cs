@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ShoppingCart_Domain.Common;
+﻿using ShoppingCart_Domain.Common;
 using ShoppingCart_Domain.ValueObjects;
 
 namespace ShoppingCart_Domain.Entities
@@ -19,7 +14,7 @@ namespace ShoppingCart_Domain.Entities
         {
 
         }
-        public ShoppingCart(Guid id,List<Product> products,Price total)
+        public ShoppingCart(Guid id, List<Product> products, Price total)
         {
             Id = id;
             Items = products;
