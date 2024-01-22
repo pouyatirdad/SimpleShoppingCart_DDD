@@ -9,7 +9,7 @@ namespace ShoppingCart_Application.Services.Commands.ShoppingCarts
     #region command
     public record AddProductToShoppingCartCommand : IRequest<Response<ShoppingCart>>
     {
-        public Guid ProductId { get; set; }
+        public List<Guid> ProductsId { get; set; }
         public Guid ShoppingCartId { get; set; }
     }
     #endregion
@@ -28,12 +28,20 @@ namespace ShoppingCart_Application.Services.Commands.ShoppingCarts
         public async Task<Response<ShoppingCart>> Handle(AddProductToShoppingCartCommand request, CancellationToken cancellationToken)
         {
             var response = new Response<ShoppingCart>();
-            var product = await _productRepository.Get(request.ProductId);
+
             var shoppingCart = new ShoppingCart(request.ShoppingCartId);
 
-            if (product != null && shoppingCart != null)
+            if (shoppingCart != null)
             {
-                shoppingCart.AddItem(product);
+                foreach (var id in request.ProductsId)
+                {
+                    var product = await _productRepository.Get(id);
+
+                    if (product != null)
+                    {
+                        shoppingCart.AddItem(product);
+                    }
+                }
 
                 bool updateCart = await _shoppingCartRepository.Update(shoppingCart);
                 if (updateCart)
