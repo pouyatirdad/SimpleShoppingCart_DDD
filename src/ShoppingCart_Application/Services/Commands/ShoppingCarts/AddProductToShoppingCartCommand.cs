@@ -1,5 +1,7 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using ShoppingCart_Application.Responses;
+using ShoppingCart_Application.Services.Commands.Products;
 using ShoppingCart_Domain.Entities;
 using ShoppingCart_Domain.Events;
 using ShoppingCart_infrastructure.Repositories;
@@ -59,6 +61,19 @@ namespace ShoppingCart_Application.Services.Commands.ShoppingCarts
             response.Message = "Failed";
 
             return response;
+        }
+    }
+    #endregion
+    #region validaton
+
+    public class AddProductToShoppingCartCommandValidator : AbstractValidator<AddProductToShoppingCartCommand>
+    {
+        public AddProductToShoppingCartCommandValidator()
+        {
+            RuleFor(x=>x.ProductsId)
+                .NotNull();
+            RuleFor(x=>x.ShoppingCartId)
+                .NotNull();
         }
     }
     #endregion

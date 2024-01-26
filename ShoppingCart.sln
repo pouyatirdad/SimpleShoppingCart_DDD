@@ -20,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingCart_infrastructure
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A417328B-E2D6-47A0-B811-D4E4C1D1907D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.UnitTest", "Application.UnitTest\Application.UnitTest.csproj", "{92D70E9C-A63B-4B8C-B9CA-BCAAF7136BAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.UnitTest", "Application.UnitTest\Application.UnitTest.csproj", "{92D70E9C-A63B-4B8C-B9CA-BCAAF7136BAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
