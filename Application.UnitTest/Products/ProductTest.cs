@@ -20,9 +20,9 @@ namespace Application.UnitTest.Products
             _validator = new CreateProductCommandValidator();
             _handler = new CreateProductCommandHandler(_mockRepository.Object);
         }
-
+        #region CreateProduct
         [Fact]
-        public async Task Handle_Should_Return_True_When_Input_Is_Valid()
+        public async Task CreateProduct_Should_Return_True_When_Input_Is_Valid()
         {
             // Arrange
             _mockRepository.Setup(x => x.Add(It.IsAny<Product>())).ReturnsAsync(true);
@@ -36,7 +36,7 @@ namespace Application.UnitTest.Products
             };
 
             // Act
-            var validateResult =_validator.TestValidate(command).Result;
+            var validateResult = _validator.TestValidate(command).Result;
             var result = await _handler.Handle(command, default);
 
             // Assert
@@ -47,7 +47,7 @@ namespace Application.UnitTest.Products
         }
 
         [Fact]
-        public async Task Handle_Should_Return_False_When_Input_Is_Invalid()
+        public async Task CreateProduct_Should_Return_False_When_Input_Is_Invalid()
         {
             // Arrange
             _mockRepository.Setup(x => x.Add(It.IsAny<Product>())).ReturnsAsync(true);
@@ -63,7 +63,7 @@ namespace Application.UnitTest.Products
             // Act
             var validateResult = _validator.TestValidate(command).Result;
             var result = await _handler.Handle(command, default);
-            
+
 
             // Assert
             Assert.False(validateResult.IsValid);
@@ -71,6 +71,6 @@ namespace Application.UnitTest.Products
             Assert.True(result.IsSuccess);
             _mockRepository.Verify(x => x.Add(It.IsAny<Product>()), Times.Once);
         }
-
+        #endregion
     }
 }
