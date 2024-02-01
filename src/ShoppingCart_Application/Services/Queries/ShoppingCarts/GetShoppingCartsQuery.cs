@@ -22,11 +22,12 @@ namespace ShoppingCart_Application.Services.Queries.ShoppingCarts
         {
             var response = new Response<List<ShoppingCart>>();
 
-            var data = _shoppingCartRepository.GetAll();
+            var data = await _shoppingCartRepository.GetAll();
 
-            if (data.Result.Any())
+            if (data.Any())
             {
-                response.Data = data.Result;
+                response.Data = data;
+                return response;
             }
 
             response.Message = "data is empty";

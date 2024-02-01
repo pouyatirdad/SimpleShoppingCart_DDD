@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ShoppingCart_Application.Responses;
 using ShoppingCart_Application.Services.Commands.ShoppingCarts;
+using ShoppingCart_Application.Services.Queries.ShoppingCarts;
 using ShoppingCart_Domain.Entities;
 
 namespace ShoppingCart_API.Controllers
@@ -14,6 +15,14 @@ namespace ShoppingCart_API.Controllers
         public ShoppingCartController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+        [HttpGet("GetShoppingCarts")]
+        public async Task<Response<List<ShoppingCart>>> GetShoppingCarts()
+        {
+            var query =new GetShoppingCartsQuery();
+            var data = await _mediator.Send(query);
+
+            return data;
         }
         [HttpPost("CreateShoppingCart")]
         public async Task<Response<Guid>> CreateShoppingCart([FromBody] CreateShoppingCartCommand createShoppingCartCommand)
