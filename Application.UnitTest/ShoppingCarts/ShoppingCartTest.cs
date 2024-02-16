@@ -118,5 +118,47 @@ namespace Application.UnitTest.ShoppingCarts
             shoppingCartMockRepository.Verify(x => x.GetAll(), Times.Once);
         }
         #endregion
+        #region GetShoppingCartById
+        [Fact]
+        public async Task GetShoppingCartById_Should_Return_True()
+        {
+            // Arrange
+            var shoppingCartMockRepository = new Mock<IShoppingCartRepository>();
+
+            var firstPrice = new Price(1000, "dollar");
+            var secondPrice = new Price(1200, "dollar");
+            var firstProduct = new Product(Guid.NewGuid(), "first", firstPrice);
+            var secondProduct = new Product(Guid.NewGuid(), "second", secondPrice);
+
+            var id = Guid.NewGuid();
+
+            var shoppingCart = new ShoppingCart(id);
+            shoppingCart.AddItem(firstProduct);
+            shoppingCart.AddItem(secondProduct);
+
+            shoppingCartMockRepository.Setup(x => x.Get(id)).ReturnsAsync(shoppingCart);
+
+            var query = new GetShoppingCartByIdQuery()
+            {
+                ShoppingCartId=id
+            };
+            var handler = new GetShoppingCartByIdQueryHandler(shoppingCartMockRepository.Object);
+
+            // Act
+            var result = await handler.Handle(query, default);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.NotNull(result.Data);
+
+            Assert.Equal(2, result.Data.Items.Count);
+            var actualTotal = result.Data.Total.Amount;
+            var expectedTotal = result.Data.Items[0].Price.Amount + result.Data.Items[1].Price.Amount;
+            Assert.Equal(expectedTotal, actualTotal);
+            Assert.Equal(result.Data.Id, shoppingCart.Id);
+
+            shoppingCartMockRepository.Verify(x => x.Get(id), Times.Once);
+        }
+        #endregion
     }
 }
