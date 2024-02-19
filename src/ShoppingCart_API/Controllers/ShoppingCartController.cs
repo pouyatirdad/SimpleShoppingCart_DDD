@@ -24,6 +24,14 @@ namespace ShoppingCart_API.Controllers
 
             return data;
         }
+        [HttpGet("GetShoppingCart")]
+        public async Task<Response<ShoppingCart>> GetShoppingCart(Guid id)
+        {
+            var query = new GetShoppingCartByIdQuery() { ShoppingCartId =id};
+            var data = await _mediator.Send(query);
+
+            return data;
+        }
         [HttpPost("CreateShoppingCart")]
         public async Task<Response<Guid>> CreateShoppingCart([FromBody] CreateShoppingCartCommand createShoppingCartCommand)
         {
