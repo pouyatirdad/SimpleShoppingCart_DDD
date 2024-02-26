@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ShoppingCart_Application.Responses;
 using ShoppingCart_Application.Services.Commands.Products;
 using ShoppingCart_Application.Services.Queries.Products;
@@ -11,10 +12,12 @@ namespace ShoppingCart_API.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
+        private readonly ICacheService _cacheService;
         private readonly IMediator _mediator;
-        public ProductController(IMediator mediator)
+        public ProductController(IMediator mediator, ICacheService cacheService)
         {
             _mediator = mediator;
+            _cacheService = cacheService;
         }
         [HttpPost("CreateProduct")]
         public async Task<Response<Product>> CreateProduct([FromBody] CreateProductCommand product)
@@ -26,8 +29,18 @@ namespace ShoppingCart_API.Controllers
         [HttpGet("GetAll")]
         public async Task<Response<List<Product>>> GetAllProducts()
         {
+            var cacheData = _cacheService.GetData<Response<List<Product>>>("allProducts");
+            if (cacheData != null)
+            {
+                return cacheData;
+            }
+            
             var query = new GetProductsQuery();
             var data = await _mediator.Send(query);
+
+            var expirationTime = DateTimeOffset.Now.AddHours(12);
+            _cacheService.SetData<Response<List<Product>>>("allProducts", data, expirationTime);
+
             return data;
         }
     }
