@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ShoppingCart_Application.Common.Interfaces;
 using ShoppingCart_Application.Responses;
 using ShoppingCart_Application.Services.Commands.Products;
 using ShoppingCart_Application.Services.Queries.Products;
