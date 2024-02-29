@@ -33,28 +33,27 @@ namespace ShoppingCart_Application.Services.Commands.ShoppingCarts
 
             var shoppingCart = new ShoppingCart(request.ShoppingCartId);
 
-            if (shoppingCart != null)
+            ArgumentNullException.ThrowIfNull(shoppingCart);
+
+            foreach (var id in request.ProductsId)
             {
-                foreach (var id in request.ProductsId)
+                var product = await _productRepository.Get(id);
+
+                if (product != null)
                 {
-                    var product = await _productRepository.Get(id);
-
-                    if (product != null)
-                    {
-                        shoppingCart.AddItem(product);
-                    }
+                    shoppingCart.AddItem(product);
                 }
+            }
 
-                bool updateCart = await _shoppingCartRepository.Update(shoppingCart);
-                if (updateCart)
-                {
-                    await _shoppingCartRepository.SaveChange();
-                    response.Data = shoppingCart;
+            bool updateCart = await _shoppingCartRepository.Update(shoppingCart);
+            if (updateCart)
+            {
+                await _shoppingCartRepository.SaveChange();
+                response.Data = shoppingCart;
 
-                    shoppingCart.AddDomainEvent(new AddProductToShoppingCartEvent(shoppingCart));
+                shoppingCart.AddDomainEvent(new AddProductToShoppingCartEvent(shoppingCart));
 
-                    return response;
-                }
+                return response;
             }
 
             response.IsSuccess = false;
