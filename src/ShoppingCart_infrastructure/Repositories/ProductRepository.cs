@@ -73,7 +73,7 @@ namespace ShoppingCart_infrastructure.Repositories
 
         public async Task<List<Product>> GetAll()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Products.AsNoTracking().ToListAsync();
         }
     }
 }
