@@ -1,6 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
+using Newtonsoft.Json;
 using ShoppingCart_Application.Common.Interfaces;
 using ShoppingCart_Application.Responses;
 using ShoppingCart_Application.Services.Commands.Products;
@@ -13,12 +16,12 @@ namespace ShoppingCart_API.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly ICacheService _cacheService;
+        private readonly IDistributedCache _cacheService;
         private readonly IMediator _mediator;
-        public ProductController(IMediator mediator, ICacheService cacheService)
+        public ProductController(IMediator mediator, IDistributedCache cache)
         {
             _mediator = mediator;
-            _cacheService = cacheService;
+            _cacheService = cache ?? throw new ArgumentNullException(nameof(cache));
         }
         [HttpPost("CreateProduct")]
         public async Task<Response<Product>> CreateProduct([FromBody] CreateProductCommand product)
@@ -30,17 +33,18 @@ namespace ShoppingCart_API.Controllers
         [HttpGet("GetAll")]
         public async Task<Response<List<Product>>> GetAllProducts()
         {
-            var cacheData = _cacheService.GetData<Response<List<Product>>>("allProducts");
+            var cacheData = await _cacheService.GetStringAsync("allProducts");
             if (cacheData != null)
             {
-                return cacheData;
+                return JsonConvert.DeserializeObject<Response<List<Product>>>(cacheData);
             }
             
             var query = new GetProductsQuery();
             var data = await _mediator.Send(query);
 
             var expirationTime = DateTimeOffset.Now.AddHours(12);
-            _cacheService.SetData<Response<List<Product>>>("allProducts", data, expirationTime);
+
+            _cacheService.SetStringAsync("allProducts", JsonConvert.SerializeObject(data));
 
             return data;
         }

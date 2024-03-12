@@ -19,7 +19,7 @@ namespace ShoppingCart_infrastructure
 
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
-            services.AddScoped<ICacheService, CacheService>();
+            //services.AddScoped<ICacheService, CacheService>();
 
             return services;
         }
