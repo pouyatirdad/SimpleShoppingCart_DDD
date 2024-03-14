@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetConnectionString("RedisURL");
-    options.InstanceName = "shoppingcart-redis";
+    options.InstanceName = "shoppingCart";
 });
 
 builder.Services.AddControllers();

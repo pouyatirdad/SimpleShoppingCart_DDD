@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ShoppingCart_Application.Common.Interfaces;
 using ShoppingCart_infrastructure.Context;
 using ShoppingCart_infrastructure.Repositories;
-using ShoppingCart_infrastructure.Services;
 
 namespace ShoppingCart_infrastructure
 {
@@ -19,7 +17,6 @@ namespace ShoppingCart_infrastructure
 
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
-            //services.AddScoped<ICacheService, CacheService>();
 
             return services;
         }

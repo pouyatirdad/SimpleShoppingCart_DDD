@@ -1,10 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Newtonsoft.Json;
-using ShoppingCart_Application.Common.Interfaces;
 using ShoppingCart_Application.Responses;
 using ShoppingCart_Application.Services.Commands.Products;
 using ShoppingCart_Application.Services.Queries.Products;
@@ -33,20 +30,26 @@ namespace ShoppingCart_API.Controllers
         [HttpGet("GetAll")]
         public async Task<Response<List<Product>>> GetAllProducts()
         {
-            var cacheData = await _cacheService.GetStringAsync("allProducts");
-            if (cacheData != null)
+            try
             {
-                return JsonConvert.DeserializeObject<Response<List<Product>>>(cacheData);
+                var cacheData = await _cacheService.GetStringAsync("allProducts");
+                if (cacheData != null)
+                {
+                    return JsonConvert.DeserializeObject<Response<List<Product>>>(cacheData);
+                }
+
+                var query = new GetProductsQuery();
+                var data = await _mediator.Send(query);
+
+                _cacheService.SetStringAsync("allProducts", JsonConvert.SerializeObject(data));
+
+                return data;
             }
-            
-            var query = new GetProductsQuery();
-            var data = await _mediator.Send(query);
+            catch (Exception ex)
+            {
 
-            var expirationTime = DateTimeOffset.Now.AddHours(12);
-
-            _cacheService.SetStringAsync("allProducts", JsonConvert.SerializeObject(data));
-
-            return data;
+                throw;
+            }
         }
     }
 }
