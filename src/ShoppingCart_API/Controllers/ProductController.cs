@@ -25,31 +25,24 @@ namespace ShoppingCart_API.Controllers
         {
             var data = await _mediator.Send(product);
 
+            _cacheService.RemoveAsync("allProducts");
             return data;
         }
         [HttpGet("GetAll")]
         public async Task<Response<List<Product>>> GetAllProducts()
         {
-            try
+            var cacheData = await _cacheService.GetStringAsync("allProducts");
+            if (cacheData != null)
             {
-                var cacheData = await _cacheService.GetStringAsync("allProducts");
-                if (cacheData != null)
-                {
-                    return JsonConvert.DeserializeObject<Response<List<Product>>>(cacheData);
-                }
-
-                var query = new GetProductsQuery();
-                var data = await _mediator.Send(query);
-
-                _cacheService.SetStringAsync("allProducts", JsonConvert.SerializeObject(data));
-
-                return data;
+                return JsonConvert.DeserializeObject<Response<List<Product>>>(cacheData);
             }
-            catch (Exception ex)
-            {
 
-                throw;
-            }
+            var query = new GetProductsQuery();
+            var data = await _mediator.Send(query);
+
+            _cacheService.SetStringAsync("allProducts", JsonConvert.SerializeObject(data));
+
+            return data;
         }
     }
 }
