@@ -91,7 +91,7 @@ namespace Application.UnitTest.Products
             productMockRepository.Setup(x => x.GetAll()).ReturnsAsync(products);
 
             var query = new GetProductsQuery();
-            var handler = new GetProductsQueryHandler(productMockRepository.Object);
+            var handler = new GetProductsQueryHandler(productMockRepository.Object,null);
 
             // Act
             var result = await handler.Handle(query, default);

@@ -7,42 +7,30 @@ using ShoppingCart_Application.Services.Commands.Products;
 using ShoppingCart_Application.Services.Queries.Products;
 using ShoppingCart_Domain.Entities;
 
-namespace ShoppingCart_API.Controllers
+namespace ShoppingCart_API.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class ProductController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ProductController : ControllerBase
+    private readonly IMediator _mediator;
+    public ProductController(IMediator mediator)
     {
-        private readonly IDistributedCache _cacheService;
-        private readonly IMediator _mediator;
-        public ProductController(IMediator mediator, IDistributedCache cache)
-        {
-            _mediator = mediator;
-            _cacheService = cache ?? throw new ArgumentNullException(nameof(cache));
-        }
-        [HttpPost("CreateProduct")]
-        public async Task<Response<Product>> CreateProduct([FromBody] CreateProductCommand product)
-        {
-            var data = await _mediator.Send(product);
+        _mediator = mediator;
+    }
+    [HttpPost("CreateProduct")]
+    public async Task<Response<Product>> CreateProduct([FromBody] CreateProductCommand product)
+    {
+        var data = await _mediator.Send(product);
 
-            _cacheService.RemoveAsync("allProducts");
-            return data;
-        }
-        [HttpGet("GetAll")]
-        public async Task<Response<List<Product>>> GetAllProducts()
-        {
-            var cacheData = await _cacheService.GetStringAsync("allProducts");
-            if (cacheData != null)
-            {
-                return JsonConvert.DeserializeObject<Response<List<Product>>>(cacheData);
-            }
+        return data;
+    }
+    [HttpGet("GetAll")]
+    public async Task<Response<List<Product>>> GetAllProducts()
+    {
+        var query = new GetProductsQuery();
+        var data = await _mediator.Send(query);
 
-            var query = new GetProductsQuery();
-            var data = await _mediator.Send(query);
-
-            _cacheService.SetStringAsync("allProducts", JsonConvert.SerializeObject(data));
-
-            return data;
-        }
+        return data;
     }
 }

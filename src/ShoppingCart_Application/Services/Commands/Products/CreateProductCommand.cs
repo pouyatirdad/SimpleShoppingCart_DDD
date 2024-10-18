@@ -1,61 +1,66 @@
 ﻿using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Caching.Distributed;
 using ShoppingCart_Application.Responses;
 using ShoppingCart_Domain.Entities;
 using ShoppingCart_Domain.ValueObjects;
 using ShoppingCart_infrastructure.Repositories;
 
-namespace ShoppingCart_Application.Services.Commands.Products
+namespace ShoppingCart_Application.Services.Commands.Products;
+
+#region command
+public record CreateProductCommand : IRequest<Response<Product>>
 {
-    #region command
-    public record CreateProductCommand : IRequest<Response<Product>>
+    public string Name { get; set; }
+    public Price Price { get; set; }
+}
+#endregion
+#region handler
+public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Response<Product>>
+{
+    private readonly IProductRepository _productRepository;
+    private readonly IDistributedCache _cacheService;
+    public CreateProductCommandHandler(IProductRepository productRepository, IDistributedCache cacheService)
     {
-        public string Name { get; set; }
-        public Price Price { get; set; }
+        _productRepository = productRepository;
+        _cacheService = cacheService ?? throw new ArgumentNullException(nameof(cacheService));
     }
-    #endregion
-    #region handler
-    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Response<Product>>
+
+    public async Task<Response<Product>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
-        private readonly IProductRepository _productRepository;
-        public CreateProductCommandHandler(IProductRepository productRepository)
+        var response = new Response<Product>();
+
+        Guid Id = Guid.NewGuid();
+        var newProduct = new Product(Id, request.Name, request.Price);
+
+        bool result = await _productRepository.Add(newProduct);
+
+        if (result)
         {
-            _productRepository = productRepository;
-        }
+            await _productRepository.SaveChange();
 
-        public async Task<Response<Product>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
-        {
-            var response = new Response<Product>();
+            await _cacheService.RemoveAsync("allProducts");
 
-            Guid Id = Guid.NewGuid();
-            var newProduct = new Product(Id, request.Name, request.Price);
-
-            bool result = await _productRepository.Add(newProduct);
-
-            if (result)
-            {
-                await _productRepository.SaveChange();
-                response.Data = newProduct;
-                return response;
-            }
-
-            response.IsSuccess = false;
-            response.Message = "Failed";
-
+            response.Data = newProduct;
             return response;
         }
-    }
-    #endregion
-    #region validaton
 
-    public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
-    {
-        public CreateProductCommandValidator()
-        {
-            RuleFor(x => x.Name)
-                .NotEmpty()
-                .MaximumLength(200);
-        }
+        response.IsSuccess = false;
+        response.Message = "Failed";
+
+        return response;
     }
-    #endregion
 }
+#endregion
+#region validaton
+
+public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
+{
+    public CreateProductCommandValidator()
+    {
+        RuleFor(x => x.Name)
+            .NotEmpty()
+            .MaximumLength(200);
+    }
+}
+#endregion
