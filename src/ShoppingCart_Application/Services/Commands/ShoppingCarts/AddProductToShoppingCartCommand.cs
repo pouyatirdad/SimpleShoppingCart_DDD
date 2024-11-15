@@ -51,7 +51,7 @@ namespace ShoppingCart_Application.Services.Commands.ShoppingCarts
                 await _shoppingCartRepository.SaveChange();
                 response.Data = shoppingCart;
 
-                shoppingCart.AddDomainEvent(new AddProductToShoppingCartEvent(shoppingCart));
+                shoppingCart.AddDomainEvent(new ProductAddedToCartEvent(shoppingCart));
 
                 return response;
             }

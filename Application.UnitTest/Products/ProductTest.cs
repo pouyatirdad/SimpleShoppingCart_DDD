@@ -20,7 +20,7 @@ namespace Application.UnitTest.Products
         {
             _mockRepository = new Mock<IProductRepository>();
             _validator = new CreateProductCommandValidator();
-            _handler = new CreateProductCommandHandler(_mockRepository.Object);
+            _handler = new CreateProductCommandHandler(_mockRepository.Object, null);
         }
         #region CreateProduct
         [Fact]
@@ -86,12 +86,12 @@ namespace Application.UnitTest.Products
             var firstProduct = new Product(Guid.NewGuid(), "first", firstPrice);
             var secondProduct = new Product(Guid.NewGuid(), "second", secondPrice);
 
-            var products=new List<Product> { firstProduct, secondProduct };
+            var products = new List<Product> { firstProduct, secondProduct };
 
             productMockRepository.Setup(x => x.GetAll()).ReturnsAsync(products);
 
             var query = new GetProductsQuery();
-            var handler = new GetProductsQueryHandler(productMockRepository.Object,null);
+            var handler = new GetProductsQueryHandler(productMockRepository.Object, null);
 
             // Act
             var result = await handler.Handle(query, default);

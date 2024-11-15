@@ -3,9 +3,9 @@ using ShoppingCart_Domain.Entities;
 
 namespace ShoppingCart_Domain.Events
 {
-    public class AddProductToShoppingCartEvent : BaseEvent
+    public class ProductAddedToCartEvent : BaseEvent
     {
-        public AddProductToShoppingCartEvent(ShoppingCart cart)
+        public ProductAddedToCartEvent(ShoppingCart cart)
         {
             Cart = cart;
         }
